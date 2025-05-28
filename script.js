@@ -1,8 +1,8 @@
 // Lista de palavras para o jogo
 const palavras = [
+  "Olá Mundo",
+  "Bem vindo estudantes",
   "Uniceplac é a melhor",
-  "I love Uniceplac",
-  "TI por amor",
   "Semana Acadêmica",
   "Analise e Desenvolvimento de Sistemas",
   "Engenharia de Software",
@@ -10,7 +10,7 @@ const palavras = [
   "TheChosenGarcia",
   "Obrigado por participar"
 ];
-
+let indicePalavra = 0;
 let palavraAtual = "";
 let player = null;
 let ranking = JSON.parse(localStorage.getItem("ranking")) || [];
@@ -27,6 +27,14 @@ function textoParaBinario(texto) {
     const binario = letra.charCodeAt(0).toString(2).padStart(8, '0');
     return binario;
   }).join(' ');
+}
+
+function limparDados() {
+  if (confirm("Tem certeza que deseja apagar todos os dados salvos?")) {
+    localStorage.clear();
+    alert("Todos os dados foram apagados!");
+    location.reload(); // Atualiza a página para refletir as mudanças
+  }
 }
 
 // Validação de email
@@ -75,31 +83,59 @@ function resetarJogo() {
   tentativas = 0;
   pontuacao = 0;
   streak = 0;
+  indicePalavra = 0;
   atualizarContadores();
 }
 
 // Gera uma nova palavra em binário (sem repetir até acabar todas)
+// function proximaPalavra() {
+//   if (palavrasUsadas.length === palavras.length) {
+//     palavrasUsadas = [];
+//     alert("Parabéns! Você completou todas as palavras! Reiniciando...");
+//   }
+
+//   let palavrasDisponiveis = palavras.filter(p => !palavrasUsadas.includes(p));
+//   palavraAtual = palavrasDisponiveis[Math.floor(Math.random() * palavrasDisponiveis.length)];
+//   palavrasUsadas.push(palavraAtual);
+
+//   const codigoBinario = textoParaBinario(palavraAtual);
+
+//   // Exibe no console o binário e a palavra
+//   console.log(`Palavra: "${palavraAtual}"`);
+//   console.log(`Binário: ${codigoBinario}`);
+
+//   // Não mostra mais para o player
+//   document.getElementById("binario").innerHTML = `
+//     <div style="color: gray; font-style: italic;">
+//   🔒 Código secreto gerado! Desafie-se a decifrar.
+// </div>
+//     <small style="color: #666;">Dica: ${palavraAtual.length} caracteres</small>
+//   `;
+
+//   document.getElementById("resposta").value = "";
+//   document.getElementById("feedback").textContent = "";
+//   tentativas = 0;
+//   tempoInicio = Date.now();
+//   atualizarContadores();
+// }
 function proximaPalavra() {
-  if (palavrasUsadas.length === palavras.length) {
-    palavrasUsadas = [];
+  if (indicePalavra >= palavras.length) {
+    indicePalavra = 0;
     alert("Parabéns! Você completou todas as palavras! Reiniciando...");
   }
 
-  let palavrasDisponiveis = palavras.filter(p => !palavrasUsadas.includes(p));
-  palavraAtual = palavrasDisponiveis[Math.floor(Math.random() * palavrasDisponiveis.length)];
-  palavrasUsadas.push(palavraAtual);
+  palavraAtual = palavras[indicePalavra];
+  indicePalavra++;
 
   const codigoBinario = textoParaBinario(palavraAtual);
 
-  // Exibe no console o binário e a palavra
   console.log(`Palavra: "${palavraAtual}"`);
   console.log(`Binário: ${codigoBinario}`);
 
-  // Não mostra mais para o player
   document.getElementById("binario").innerHTML = `
     <div style="color: gray; font-style: italic;">
-  🔒 Código secreto gerado! Desafie-se a decifrar.
-</div>
+      🔒 Código secreto gerado! Desafie-se a decifrar.
+    </div>
     <small style="color: #666;">Dica: ${palavraAtual.length} caracteres</small>
   `;
 
