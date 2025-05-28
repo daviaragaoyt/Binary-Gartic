@@ -2,7 +2,7 @@ let roomId = '';
 let username = '';
 
 async function createRoom() {
-  const res = await fetch('api/create-room', { method: 'POST' });
+  const res = await fetch('/api/create-room', { method: 'POST' });
   const data = await res.json();
   roomId = data.roomId;
   document.getElementById('room-info').innerText = `Sala: ${roomId}`;
@@ -19,7 +19,7 @@ async function joinRoom() {
     return;
   }
 
-  const res = await fetch('api/join-room', {
+  const res = await fetch('/api/join-room', {
     method: 'POST',
     body: JSON.stringify({ roomId, username }),
     headers: { 'Content-Type': 'application/json' },
@@ -36,7 +36,7 @@ async function joinRoom() {
 }
 
 async function startGame() {
-  await fetch('api/start-game', {
+  await fetch('/api/start-game', {
     method: 'POST',
     body: JSON.stringify({ roomId }),
     headers: { 'Content-Type': 'application/json' },
@@ -45,7 +45,7 @@ async function startGame() {
 
 async function sendAnswer() {
   const answer = document.getElementById('answer').value;
-  await fetch('api/send-answer', {
+  await fetch('/api/send-answer', {
     method: 'POST',
     body: JSON.stringify({ roomId, username, answer }),
     headers: { 'Content-Type': 'application/json' },
@@ -54,7 +54,7 @@ async function sendAnswer() {
 
 async function pollGame() {
   setInterval(async () => {
-    const res = await fetch(`api/get-state?roomId=${roomId}`);
+    const res = await fetch(`/api/get-state?roomId=${roomId}`);
     const data = await res.json();
 
     document.getElementById('game-status').innerText = `Status: ${data.status}`;
