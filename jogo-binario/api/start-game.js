@@ -7,8 +7,13 @@ function randomBinary() {
 
 export default function handler(req, res) {
   if (req.method === 'POST') {
-    res.status(200).json({ message: 'Start game API works!' });
-  } else {
-    res.status(405).json({ message: 'Method not allowed' });
+    const { roomId } = req.body;
+    const room = rooms[roomId];
+    if (!room) return res.status(404).json({ error: 'Room not found' });
+
+    room.status = 'playing';
+    room.binary = randomBinary();
+
+    res.status(200).json({ message: 'Game started' });
   }
 }
