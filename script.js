@@ -80,20 +80,22 @@ function resetarJogo() {
 
 // Gera uma nova palavra em binário (sem repetir até acabar todas)
 function proximaPalavra() {
-  // Se todas as palavras foram usadas, reinicia a lista
   if (palavrasUsadas.length === palavras.length) {
     palavrasUsadas = [];
     alert("Parabéns! Você completou todas as palavras! Reiniciando...");
   }
 
-  // Seleciona uma palavra que ainda não foi usada
   let palavrasDisponiveis = palavras.filter(p => !palavrasUsadas.includes(p));
   palavraAtual = palavrasDisponiveis[Math.floor(Math.random() * palavrasDisponiveis.length)];
   palavrasUsadas.push(palavraAtual);
 
+  const exibicao = modoBinario
+    ? textoParaBinario(palavraAtual)
+    : palavraAtual;
+
   document.getElementById("binario").innerHTML = `
-    <div style="font-family: monospace; font-size: 14px; line-height: 1.5; word-break: break-all;">
-      ${textoParaBinario(palavraAtual)}
+    <div style="font-family: monospace; font-size: 14px; line-height: 1.5; word-break: break-word;">
+      ${exibicao}
     </div>
     <small style="color: #666;">Dica: ${palavraAtual.length} caracteres</small>
   `;
