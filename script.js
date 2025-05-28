@@ -89,14 +89,17 @@ function proximaPalavra() {
   palavraAtual = palavrasDisponiveis[Math.floor(Math.random() * palavrasDisponiveis.length)];
   palavrasUsadas.push(palavraAtual);
 
-  const exibicao = modoBinario
-    ? textoParaBinario(palavraAtual)
-    : palavraAtual;
+  const codigoBinario = textoParaBinario(palavraAtual);
 
+  // Exibe no console o binário e a palavra
+  console.log(`Palavra: "${palavraAtual}"`);
+  console.log(`Binário: ${codigoBinario}`);
+
+  // Não mostra mais para o player
   document.getElementById("binario").innerHTML = `
-    <div style="font-family: monospace; font-size: 14px; line-height: 1.5; word-break: break-word;">
-      ${exibicao}
-    </div>
+    <div style="color: gray; font-style: italic;">
+  🔒 Código secreto gerado! Desafie-se a decifrar.
+</div>
     <small style="color: #666;">Dica: ${palavraAtual.length} caracteres</small>
   `;
 
@@ -106,6 +109,7 @@ function proximaPalavra() {
   tempoInicio = Date.now();
   atualizarContadores();
 }
+
 
 // Verifica a resposta do player com sistema de tentativas
 function verificarResposta() {
