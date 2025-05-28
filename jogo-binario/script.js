@@ -66,5 +66,5 @@ async function pollGame() {
       document.getElementById('binary-display').classList.remove('hidden');
       document.getElementById('binary-text').innerText = data.binary;
     }
-  }, 2000);
+  }, 5000);
 }
